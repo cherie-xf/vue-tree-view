@@ -250,6 +250,9 @@ export default {
     }
     &.checkbox-disabled {
       cursor: not-allowed;
+      input {
+        cursor: not-allowed;
+      }
       .checkbox-label {
         border-color: #dcdee2;
         background-color: #f3f3f3;
