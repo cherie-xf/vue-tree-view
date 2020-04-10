@@ -1,38 +1,23 @@
 <template>
   <div class="vu-tree">
-    <div
-      class="vu-tree-node"
+    <tree-node
       v-for="(item, i) in treeData"
       :key="i"
-      :data="item"
+      :node="item"
       visible
       :multiple="multiple"
       :show-checkbox="showCheckbox"
-      :children-key="childrenKey"
-    >
-      <span> title: {{ item.title }} </span>
-      <span> checked: {{ item.checked }} </span>
-      <span> selected: {{ item.selected }} </span>
-      <span> indeterminate: {{ item.indeterminate }} </span>
-      <div v-for="(child, ci) in item.children" :key="ci">
-        title: {{ child.title }} checked:{{ child.checked }} selected:
-        {{ child.selected }} indeterminate:{{child.indeterminate}}
-        <div v-for="(cchild, cci) in child.children" :key="cci">
-            title: {{ cchild.title }} checked:{{ cchild.checked }} selected:
-            {{ cchild.selected }}
-
-        </div>
-
-      </div>
-    </div>
-
+    ></tree-node>
     <div class="vu-tree-empty" v-if="!treeData.length">{{ emptyText }}</div>
   </div>
 </template>
 <script>
+import treeNode from "./treeNode.vue";
 export default {
   name: "vuTree",
-  components: {},
+  components: {
+    treeNode
+  },
   props: {
     data: {
       type: Array,
@@ -48,34 +33,36 @@ export default {
                 expand: true,
                 children: [
                   { title: "leaf 1-1-1", checked: true },
-                  { title: "leaf 1-1-2",  }
-                ],
+                  { title: "leaf 1-1-2" }
+                ]
               },
               {
                 title: "parent 1-2",
                 expand: true,
                 children: [
-                  { title: "leaf 1-2-1", selected:true },
-                  { title: "leaf 1-2-1",  }
-                ],
+                  { title: "leaf 1-2-1", selected: true },
+                  { title: "leaf 1-2-1" }
+                ]
               }
-            ],
+            ]
           },
           {
             title: "parent 2",
-            children: [{ title: "leaf 2-1",  checked: true, selected:true}],
+            children: [{ title: "leaf 2-1" }]
           },
-          { title: "parent3" }
+          { title: "parent3", disabled: true }
         ];
       }
     },
     multiple: {
       type: Boolean,
       default: false
+      //   default: true
     },
     showCheckbox: {
       type: Boolean,
-      default: false
+      //   default: false
+      default: true
     },
     emptyText: {
       type: String,
@@ -188,6 +175,7 @@ export default {
         indeterminate: false
       });
       this.updatedTreeUp(nodeKey);
+      console.log("checked node", this.getCheckedNodes(this.flatedData));
     },
     handleSelect(nodeKey) {
       if (!this.flatedData[nodeKey]) return;
@@ -206,7 +194,12 @@ export default {
       }
       this.$set(node, "selected", !node.selected);
       //TODO: on selected
-      this.$emit("on-select-change", this.getSelectedNodes(), node);
+      this.$emit(
+        "on-select-change",
+        this.getSelectedNodes(this.flatedData),
+        node
+      );
+      console.log("selected node", this.getSelectedNodes(this.flatedData));
     },
     getCheckedNodes(flatedData) {
       return flatedData.filter(obj => obj.node.checked).map(obj => obj.node);
@@ -227,7 +220,7 @@ export default {
   mounted() {
     this.$on("on-check", this.handleCheck);
     this.$on("on-selected", this.handleSelect);
-    // this.$on("toggle-expand", node => this.$emit("on-toggle-expand", node));
+    this.$on("toggle-expand", node => this.$emit("on-toggle-expand", node));
   }
 };
 </script>
