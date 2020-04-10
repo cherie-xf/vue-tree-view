@@ -263,8 +263,8 @@ export default {
         border-color: #2d8cf0;
         background-color: #2d8cf0;
         &::after {
-          top: 2px;
-          left: 5px;
+          top: 3px;
+          left: 6px;
           transform: rotate(45deg) scale(1);
         }
       }
@@ -276,8 +276,8 @@ export default {
         &::after {
           width: 10px;
           height: 1px;
-          top: 6px;
-          left: 2px;
+          top: 7px;
+          left: 3px;
           transform: scale(1);
         }
       }
