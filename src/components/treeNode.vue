@@ -64,7 +64,11 @@ export default {
     showCheckbox: {
       type: Boolean,
       default: false
-    }
+    },
+    checkDirectly:{
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {};
@@ -115,7 +119,11 @@ export default {
         nodeKey: this.node.nodeKey
       };
       //   this.$emit("on-check", changes);
-      this.dispatch("vuTree", "on-check", changes);
+      if (this.showCheckbox && this.checkDirectly) {
+        this.handleCheck();
+      } else {
+        this.dispatch("vuTree", "on-check", changes);
+      }
     },
     // for event pop up
     dispatch(componentName, eventName, params) {

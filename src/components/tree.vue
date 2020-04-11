@@ -7,6 +7,7 @@
       visible
       :multiple="multiple"
       :show-checkbox="showCheckbox"
+      :check-directly="checkDirectly"
     ></tree-node>
     <div class="vu-tree-empty" v-if="!treeData.length">{{ emptyText }}</div>
   </div>
@@ -60,6 +61,11 @@ export default {
       //   default: true
     },
     showCheckbox: {
+      type: Boolean,
+      //   default: false
+      default: true
+    },
+    checkDirectly:{
       type: Boolean,
       //   default: false
       default: true
@@ -148,9 +154,7 @@ export default {
         }
       } else {
         this.$set(parent, "checked", false);
-        if (parent.children.some(node => node.checked)) {
-          this.$set(parent, "indeterminate", true);
-        }
+        this.$set(parent, "indeterminate", parent.children.some(node => node.checked));
       }
       return this.updatedTreeUp(parentKey);
     },
