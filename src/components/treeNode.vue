@@ -41,6 +41,7 @@
           :node="item"
           :multiple="multiple"
           :show-checkbox="showCheckbox"
+          :check-directly="checkDirectly"
         >
         </tree-node>
       </li>
