@@ -31,7 +31,6 @@
           @click="handleSelect"
           :class="selectedClass"
         >
-          <!-- <span v-html="node.html || node.title"></span> -->
           <template>{{ node.html || node.title }}</template>
         </span>
         <tree-node
@@ -104,13 +103,11 @@ export default {
     handleExpand() {
       if (this.node.children && this.node.children.length) {
         this.$set(this.node, "expand", !this.node.expand);
-        // this.$emit("toggle-expand", this.node);
         this.dispatch("vuTree", "toggle-expand", this.node);
       }
     },
     handleSelect() {
       if (this.node.disabled) return;
-      //   this.$emit("on-selected", this.node.nodeKey);
       this.dispatch("vuTree", "on-selected", this.node.nodeKey);
     },
     handleCheck() {
@@ -119,12 +116,7 @@ export default {
         checked: !this.node.checked && !this.node.indeterminate,
         nodeKey: this.node.nodeKey
       };
-      //   this.$emit("on-check", changes);
-      if (this.showCheckbox && this.checkDirectly) {
-        this.handleCheck();
-      } else {
-        this.dispatch("vuTree", "on-check", changes);
-      }
+      this.dispatch("vuTree", "on-check", changes);
     },
     // for event pop up
     dispatch(componentName, eventName, params) {

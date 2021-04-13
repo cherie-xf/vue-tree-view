@@ -1,6 +1,6 @@
 # tree-view
 
-## Demo(https://cherie-xf.github.io/vue-tree-view/)
+## [Demo](https://cherie-xf.github.io/vue-tree-view/)
 
 ## Project setup
 ```

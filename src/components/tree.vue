@@ -154,7 +154,9 @@ export default {
         }
       } else {
         this.$set(parent, "checked", false);
-        this.$set(parent, "indeterminate", parent.children.some(node => node.checked));
+        if (parent.children.some(node => node.checked)) {
+          this.$set(parent, "indeterminate", true);
+        }
       }
       return this.updatedTreeUp(parentKey);
     },
